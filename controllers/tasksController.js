@@ -74,7 +74,7 @@ export const taskEdit = asyncHandler(async (req, res) => {
     if (!ObjectId.isValid(id)) return res.redirect("/tasks");
 
     const task = await Task.findById(id);
-    console.log(task);
+
     const projects = await Project.find().sort({ name: 1 });
     const priorities = await Priority.find().sort({ name: 1 });
 
