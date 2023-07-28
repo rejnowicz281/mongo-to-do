@@ -1,0 +1,39 @@
+<form action="<%= action %>" method="post">
+    <div>
+        <label for="name">Name</label>
+        <input type="text" required name="name" maxlength="100" value="<%= locals.task ? task.name : '' %>" />
+    </div>
+    <div>
+        <label for="description">Description</label>
+        <textarea name="description" maxlength="100"><%= locals.task ? task.description : '' %></textarea>
+    </div>
+    <div>
+        <label for="project">Project</label>
+        <select required name="project" id="project">
+            <option value="">Select Project</option>
+            <% projects.forEach((project)=> { %>
+            <option <% if (locals.task) { %>
+                <% if (task.project == project.id) { %> selected <% } %> <% } %> value="<%= project.id %>"><%=
+                project.name %>
+            </option>
+            <% }); %>
+        </select>
+    </div>
+    <div>
+        <label for="priority">Priority</label>
+        <select required name="priority" id="priority">
+            <option value="">Select Priority</option>
+            <% priorities.forEach((priority)=> { %>
+            <option <% if (locals.task) { %>
+                <% if (task.priority == priority.id) { %> selected <% } %> <% } %> value="<%= priority.id %>"><%=
+                priority.name %>
+            </option>
+            <% }); %>
+        </select>
+    </div>
+    <div>
+        <label for="deadline">Deadline</label>
+        <input type="date" name="deadline" value="<%= locals.task ? task.deadline_yyyy_mm_dd : '' %>" />
+    </div>
+    <input type="submit" value="<%= submitValue %>" />
+</form>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/nav.ejs") %>
+        <h1>Edit Task</h1>
+        <!-- prettier-ignore -->
+        <%- include("./form.ejs", {action: `/tasks/${task.id}?_method=PUT`, submitValue: "Update Task"}) %>
+        <%- include("../partials/formErrors.ejs") %>
+    </body>
+</html>

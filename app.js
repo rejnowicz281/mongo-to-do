@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 
 import prioritiesRouter from "./routes/priorities.js";
 import projectsRouter from "./routes/projects.js";
+import tasksRouter from "./routes/tasks.js";
 
 const app = express();
 
@@ -27,11 +28,12 @@ app.use(methodOverride("_method"));
 
 // routes
 app.get("/", (req, res) => {
-    res.redirect("/projects");
+    res.redirect("/tasks");
 });
 
 app.use("/priorities", prioritiesRouter);
 app.use("/projects", projectsRouter);
+app.use("/tasks", tasksRouter);
 
 app.use((req, res) => {
     res.status(500).render("error", { title: "500" });

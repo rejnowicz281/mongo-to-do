@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/nav.ejs") %>
+        <h1><%= task.name %></h1>
+        <p><b>Task Description: </b><%= task.description %></p>
+        <% if(task.completed) {%>
+        <p><b>Completed:</b></p>
+        <% } else { %>
+        <p><b>Not Completed</b></p>
+        <% } %>
+        <a href="/tasks/<%= task._id %>/edit">Edit</a>
+        <form action="/tasks/<%= task._id %>?_method=DELETE" method="POST">
+            <button>Delete</button>
+        </form>
+        <p><b>Deadline: </b><%= task.deadline_yyyy_mm_dd %></p>
+        <p><b>Task Priority: </b><a href="/priorities/<%= task.priority.id %>"><%= task.priority.name %></a></p>
+        <p><b>Task Project: </b><a href="/projects/<%= task.project.id %>"><%= task.project.name %></a></p>
+        <p><b>Created: </b><%= task.createdAt_yyyy_mm_dd %></p>
+        <p><b>Last Updated: </b><%= task.updatedAt_yyyy_mm_dd %></p>
+    </body>
+</html>

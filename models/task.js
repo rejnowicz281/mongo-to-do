@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import { DateTime } from "luxon";
+
 const Schema = mongoose.Schema;
 
 const TaskSchema = new Schema(
@@ -17,6 +19,21 @@ const TaskSchema = new Schema(
 // Virtual for task's URL
 TaskSchema.virtual("url").get(function () {
     return `/tasks/${this._id}`;
+});
+
+// Virtual for task's deadline in YYYY-MM-DD format with luxon
+TaskSchema.virtual("deadline_yyyy_mm_dd").get(function () {
+    return this.deadline ? DateTime.fromJSDate(this.deadline).toISODate() : null;
+});
+
+// Virtual for task's createdAt field formatted with luxon
+TaskSchema.virtual("createdAt_yyyy_mm_dd").get(function () {
+    return DateTime.fromJSDate(this.createdAt).toISODate();
+});
+
+// Virtual for task's updatedAt field formatted with luxon
+TaskSchema.virtual("updatedAt_yyyy_mm_dd").get(function () {
+    return DateTime.fromJSDate(this.updatedAt).toISODate();
 });
 
 // Export model
