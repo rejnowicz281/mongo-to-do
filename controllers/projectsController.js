@@ -39,11 +39,11 @@ export const projectCreate = [
             description: req.body.description || undefined,
         };
 
-        if (!errors.isEmpty()) {
-            res.render("projects/new", { title: "New Project", project: projectData, errors: errors.array() });
-        } else {
-            const project = new Project(projectData);
+        const project = new Project(projectData);
 
+        if (!errors.isEmpty()) {
+            res.render("projects/new", { title: "New Project", project, errors: errors.array() });
+        } else {
             await project.save();
 
             console.log(project);
@@ -76,7 +76,11 @@ export const projectUpdate = [
         };
 
         if (!errors.isEmpty()) {
-            res.render("projects/edit", { title: "Edit Project", project: projectData, errors: errors.array() });
+            res.render("projects/edit", {
+                title: "Edit Project",
+                project: new Project(projectData),
+                errors: errors.array(),
+            });
         } else {
             const project = await Project.findById(id);
 
