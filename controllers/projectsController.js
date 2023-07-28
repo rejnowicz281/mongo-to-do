@@ -34,10 +34,13 @@ export const projectCreate = [
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
 
-        const project = new Project({
+        const projectData = {
             name: req.body.name,
-            description: req.body.description,
-        });
+        };
+
+        if (req.body.description) projectData.description = req.body.description;
+
+        const project = new Project(projectData);
 
         if (!errors.isEmpty()) {
             res.render("projects/new", { title: "New Project", project, errors: errors.array() });
@@ -65,11 +68,14 @@ export const projectUpdate = [
         const errors = validationResult(req);
         const id = req.params.id;
 
-        const project = new Project({
+        const projectData = {
             name: req.body.name,
-            description: req.body.description,
             _id: id,
-        });
+        };
+
+        if (req.body.description) projectData.description = req.body.description;
+
+        const project = new Project(projectData);
 
         if (!errors.isEmpty()) {
             res.render("projects/edit", { title: "Edit Project", project, errors: errors.array() });

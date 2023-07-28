@@ -4,7 +4,9 @@
     <body>
         <%- include("../partials/nav.ejs") %>
         <h1><%= project.name %></h1>
+        <% if(project.description) {%>
         <p><b>Project Description:</b> <%= project.description %></p>
+        <% } %>
         <a href="/projects/<%= project._id %>/edit">Edit</a>
         <form action="/projects/<%= project._id %>?_method=DELETE" method="POST">
             <input type="submit" value="Delete" />
