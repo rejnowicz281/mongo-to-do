@@ -92,18 +92,18 @@ async function createTasks() {
     console.log("Creating tasks");
 
     await taskCreate(0, "Task 1A", "This is Task 1 of Alpha", projects[0], false, new Date(), false);
-    await taskCreate(1, "Task 2A", "This is Task 2 of Alpha", projects[0], false, false, priorities[1]);
+    await taskCreate(1, "Task 2A", "This is Task 2 of Alpha", projects[0], true, false, priorities[1]);
     await taskCreate(2, "Task 3A", "This is Task 3 of Alpha", projects[0], false, new Date(), priorities[2]);
     await taskCreate(3, "Task 1B", "This is Task 1 of Beta", projects[1], false, new Date(), priorities[0]);
-    await taskCreate(4, "Task 2B", "This is Task 2 of Beta", projects[1], false, new Date(), false);
+    await taskCreate(4, "Task 2B", "This is Task 2 of Beta", projects[1], true, new Date(), false);
     await taskCreate(5, "Task 3B", "This is Task 3 of Beta", projects[1], false, false, priorities[2]);
     await taskCreate(6, "Task 1G", "This is Task 1 of Gamma", projects[2], false, false, priorities[0]);
-    await taskCreate(7, "Task 2G", "This is Task 2 of Gamma", projects[2], false, new Date(), priorities[1]);
+    await taskCreate(7, "Task 2G", "This is Task 2 of Gamma", projects[2], true, new Date(), priorities[1]);
     await taskCreate(8, "Task 3G", "This is Task 3 of Gamma", projects[2], false, false, false);
     await taskCreate(9, "Task 1D", "This is Task 1 of Delta", projects[3], false, new Date(), false);
     await taskCreate(10, "Task 2D", "This is Task 2 of Delta", projects[3], false, false, priorities[1]);
-    await taskCreate(11, "Task 3D", "This is Task 3 of Delta", projects[3], false, false, priorities[2]);
+    await taskCreate(11, "Task 3D", "This is Task 3 of Delta", projects[3], true, false, priorities[2]);
     await taskCreate(12, "Task 1E", "This is Task 1 of Epsilon", projects[4], false, new Date(), priorities[0]);
-    await taskCreate(13, "Task 2E", "This is Task 2 of Epsilon", projects[4], false, false, false);
+    await taskCreate(13, "Task 2E", "This is Task 2 of Epsilon", projects[4], true, false, false);
     await taskCreate(14, "Task 3E", "This is Task 3 of Epsilon", projects[4], false, new Date(), priorities[2]);
 }
