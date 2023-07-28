@@ -1,0 +1,12 @@
+<form action="<%= action %>" method="post">
+    <div>
+        <label for="name">Name</label>
+        <input type="text" name="name" required maxlength="100" value="<%= locals.project ? project.name : "" %>" />
+    </div>
+    <div>
+        <label for="description">Description</label>
+        <!-- prettier-ignore -->
+        <textarea maxlength="100" name="description" id="text" cols="30" rows="10"><%= locals.project ? project.description : "" %></textarea>
+    </div>
+    <input type="submit" value="<%= submitValue %>" />
+</form>

@@ -3,6 +3,8 @@ import methodOverride from "method-override";
 import mongoose from "mongoose";
 
 import prioritiesRouter from "./routes/priorities.js";
+import projectsRouter from "./routes/projects.js";
+
 const app = express();
 
 // connect to mongodb && listen for requests
@@ -25,10 +27,11 @@ app.use(methodOverride("_method"));
 
 // routes
 app.get("/", (req, res) => {
-    res.redirect("/priorities");
+    res.redirect("/projects");
 });
 
 app.use("/priorities", prioritiesRouter);
+app.use("/projects", projectsRouter);
 
 app.use((req, res) => {
     res.status(500).render("error", { title: "500" });
