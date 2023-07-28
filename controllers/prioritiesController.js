@@ -47,11 +47,11 @@ export const priorityCreate = [
             level: req.body.level,
         };
 
-        if (!errors.isEmpty()) {
-            res.render("priorities/new", { title: "New Priority", priority: priorityData, errors: errors.array() });
-        } else {
-            const priority = new Priority(priorityData);
+        const priority = new Priority(priorityData);
 
+        if (!errors.isEmpty()) {
+            res.render("priorities/new", { title: "New Priority", priority, errors: errors.array() });
+        } else {
             await priority.save();
 
             console.log(priority);
@@ -92,7 +92,11 @@ export const priorityUpdate = [
         };
 
         if (!errors.isEmpty()) {
-            res.render("priorities/edit", { title: "Edit Priority", priority: priorityData, errors: errors.array() });
+            res.render("priorities/edit", {
+                title: "Edit Priority",
+                priority: new Priority(priorityData),
+                errors: errors.array(),
+            });
         } else {
             const priority = await Priority.findById(id);
 
