@@ -36,7 +36,7 @@ export const projectCreate = [
 
         const projectData = {
             name: req.body.name,
-            description: req.body.description,
+            description: req.body.description || undefined,
         };
 
         if (!errors.isEmpty()) {
@@ -45,6 +45,8 @@ export const projectCreate = [
             const project = new Project(projectData);
 
             await project.save();
+
+            console.log(project);
             res.redirect(project.url);
         }
     }),
@@ -69,7 +71,7 @@ export const projectUpdate = [
 
         const projectData = {
             name: req.body.name,
-            description: req.body.description,
+            description: req.body.description || undefined,
             _id: id,
         };
 
@@ -77,8 +79,12 @@ export const projectUpdate = [
             res.render("projects/edit", { title: "Edit Project", project: projectData, errors: errors.array() });
         } else {
             const project = await Project.findById(id);
+
             project.set(projectData);
+
             await project.save();
+
+            console.log(project);
             res.redirect(project.url);
         }
     }),
