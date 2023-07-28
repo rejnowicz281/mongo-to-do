@@ -100,6 +100,7 @@ export const taskUpdate = [
             description: req.body.description || undefined,
             deadline: req.body.deadline || undefined,
             priority: req.body.priority || undefined,
+            _id: id,
         };
 
         if (!errors.isEmpty()) {
