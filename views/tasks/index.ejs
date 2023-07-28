@@ -6,9 +6,7 @@
         <h1>All Tasks</h1>
         <ul>
             <% tasks.forEach((task) => { %>
-            <li>
-                <a href="/tasks/<%= task._id %>"> <%= task.name %></a>
-            </li>
+            <li><a href="/tasks/<%= task._id %>"> <%= task.name %></a>, <%= task.completed %></li>
             <% }) %>
         </ul>
     </body>
