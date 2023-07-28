@@ -53,6 +53,8 @@ export const priorityCreate = [
             const priority = new Priority(priorityData);
 
             await priority.save();
+
+            console.log(priority);
             res.redirect(priority.url);
         }
     }),
@@ -92,10 +94,13 @@ export const priorityUpdate = [
         if (!errors.isEmpty()) {
             res.render("priorities/edit", { title: "Edit Priority", priority: priorityData, errors: errors.array() });
         } else {
-            const priority = new Priority(priorityData);
+            const priority = await Priority.findById(id);
 
-            await Priority.findByIdAndUpdate(id, priority);
+            priority.set(priorityData);
 
+            await priority.save();
+
+            console.log(priority);
             res.redirect(priority.url);
         }
     }),
