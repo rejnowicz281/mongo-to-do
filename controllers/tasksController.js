@@ -43,10 +43,12 @@ export const taskCreate = [
         const taskData = {
             name: req.body.name,
             project: req.body.project,
-            description: req.body.description,
-            deadline: req.body.deadline,
-            priority: req.body.priority,
+            description: req.body.description || undefined,
+            deadline: req.body.deadline || undefined,
+            priority: req.body.priority || undefined,
         };
+
+        const task = new Task(taskData);
 
         if (!errors.isEmpty()) {
             const projects = await Project.find().sort({ name: 1 });
@@ -54,15 +56,15 @@ export const taskCreate = [
 
             res.render("tasks/new", {
                 title: "New Task",
-                task: taskData,
+                task,
                 projects,
                 priorities,
                 errors: errors.array(),
             });
         } else {
-            const task = new Task(taskData);
-
             await task.save();
+
+            console.log(task);
             res.redirect(task.url);
         }
     }),
@@ -95,9 +97,9 @@ export const taskUpdate = [
         const taskData = {
             name: req.body.name,
             project: req.body.project,
-            description: req.body.description,
-            deadline: req.body.deadline,
-            priority: req.body.priority,
+            description: req.body.description || undefined,
+            deadline: req.body.deadline || undefined,
+            priority: req.body.priority || undefined,
         };
 
         if (!errors.isEmpty()) {
@@ -106,15 +108,19 @@ export const taskUpdate = [
 
             res.render("tasks/edit", {
                 title: "Edit Task",
-                task: taskData,
+                task: new Task(taskData),
                 projects,
                 priorities,
                 errors: errors.array(),
             });
         } else {
             const task = await Task.findById(id);
+
             task.set(taskData);
+
             await task.save();
+
+            console.log(task);
             res.redirect(task.url);
         }
     }),
