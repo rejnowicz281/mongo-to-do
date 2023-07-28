@@ -42,14 +42,16 @@ export const priorityCreate = [
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
 
-        const priority = new Priority({
+        const priorityData = {
             name: req.body.name,
             level: req.body.level,
-        });
+        };
 
         if (!errors.isEmpty()) {
-            res.render("priorities/new", { title: "New Priority", priority, errors: errors.array() });
+            res.render("priorities/new", { title: "New Priority", priority: priorityData, errors: errors.array() });
         } else {
+            const priority = new Priority(priorityData);
+
             await priority.save();
             res.redirect(priority.url);
         }
@@ -81,15 +83,17 @@ export const priorityUpdate = [
         const errors = validationResult(req);
         const id = req.params.id;
 
-        const priority = new Priority({
+        const priorityData = {
             name: req.body.name,
             level: req.body.level,
             _id: id,
-        });
+        };
 
         if (!errors.isEmpty()) {
-            res.render("priorities/edit", { title: "Edit Priority", priority, errors: errors.array() });
+            res.render("priorities/edit", { title: "Edit Priority", priority: priorityData, errors: errors.array() });
         } else {
+            const priority = new Priority(priorityData);
+
             await Priority.findByIdAndUpdate(id, priority);
 
             res.redirect(priority.url);

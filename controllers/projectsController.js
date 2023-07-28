@@ -29,22 +29,21 @@ export const projectNew = (req, res) => {
 
 export const projectCreate = [
     body("name", "Project name must not be empty").trim().isLength({ min: 1 }).escape(),
-    body("description").trim().escape(),
+    body("description").optional({ checkFalsy: true }).trim().escape(),
 
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
 
         const projectData = {
             name: req.body.name,
+            description: req.body.description,
         };
 
-        if (req.body.description) projectData.description = req.body.description;
-
-        const project = new Project(projectData);
-
         if (!errors.isEmpty()) {
-            res.render("projects/new", { title: "New Project", project, errors: errors.array() });
+            res.render("projects/new", { title: "New Project", project: projectData, errors: errors.array() });
         } else {
+            const project = new Project(projectData);
+
             await project.save();
             res.redirect(project.url);
         }
@@ -62,7 +61,7 @@ export const projectEdit = asyncHandler(async (req, res) => {
 
 export const projectUpdate = [
     body("name", "Project name must not be empty").trim().isLength({ min: 1 }).escape(),
-    body("description").trim().escape(),
+    body("description").optional({ checkFalsy: true }).trim().escape(),
 
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
@@ -70,18 +69,16 @@ export const projectUpdate = [
 
         const projectData = {
             name: req.body.name,
+            description: req.body.description,
             _id: id,
         };
 
-        if (req.body.description) projectData.description = req.body.description;
-
-        const project = new Project(projectData);
-
         if (!errors.isEmpty()) {
-            res.render("projects/edit", { title: "Edit Project", project, errors: errors.array() });
+            res.render("projects/edit", { title: "Edit Project", project: projectData, errors: errors.array() });
         } else {
-            await Project.findByIdAndUpdate(id, project);
-
+            const project = await Project.findById(id);
+            project.set(projectData);
+            await project.save();
             res.redirect(project.url);
         }
     }),

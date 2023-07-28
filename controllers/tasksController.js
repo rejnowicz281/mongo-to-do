@@ -32,30 +32,36 @@ export const taskNew = asyncHandler(async (req, res) => {
 
 export const taskCreate = [
     body("name", "Task name must not be empty").trim().isLength({ min: 1 }).escape(),
-    body("description").trim().escape(),
+    body("description").optional({ checkFalsy: true }).trim().escape(),
     body("project", "Project must not be empty").trim().isLength({ min: 1 }).escape(),
-    body("completed").toBoolean(),
-    body("deadline").toDate(),
-    body("priority").trim().escape(),
+    body("deadline").optional({ checkFalsy: true }).toDate(),
+    body("priority").optional({ checkFalsy: true }).trim().escape(),
 
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
 
-        const task = new Task({
+        const taskData = {
             name: req.body.name,
-            description: req.body.description,
             project: req.body.project,
-            completed: req.body.completed,
+            description: req.body.description,
             deadline: req.body.deadline,
             priority: req.body.priority,
-        });
+        };
 
         if (!errors.isEmpty()) {
             const projects = await Project.find().sort({ name: 1 });
             const priorities = await Priority.find().sort({ name: 1 });
 
-            res.render("tasks/new", { title: "New Task", task, projects, priorities, errors: errors.array() });
+            res.render("tasks/new", {
+                title: "New Task",
+                task: taskData,
+                projects,
+                priorities,
+                errors: errors.array(),
+            });
         } else {
+            const task = new Task(taskData);
+
             await task.save();
             res.redirect(task.url);
         }
@@ -68,6 +74,7 @@ export const taskEdit = asyncHandler(async (req, res) => {
     if (!ObjectId.isValid(id)) return res.redirect("/tasks");
 
     const task = await Task.findById(id);
+    console.log(task);
     const projects = await Project.find().sort({ name: 1 });
     const priorities = await Priority.find().sort({ name: 1 });
 
@@ -76,33 +83,38 @@ export const taskEdit = asyncHandler(async (req, res) => {
 
 export const taskUpdate = [
     body("name", "Task name must not be empty").trim().isLength({ min: 1 }).escape(),
-    body("description").trim().escape(),
+    body("description").optional({ checkFalsy: true }).trim().escape(),
     body("project", "Project must not be empty").trim().isLength({ min: 1 }).escape(),
-    body("completed").toBoolean(),
-    body("deadline").toDate(),
-    body("priority").trim().escape(),
+    body("deadline").optional({ checkFalsy: true }).toDate(),
+    body("priority").optional({ checkFalsy: true }).trim().escape(),
 
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
         const id = req.params.id;
 
-        const task = new Task({
+        const taskData = {
             name: req.body.name,
-            description: req.body.description,
             project: req.body.project,
-            completed: req.body.completed,
+            description: req.body.description,
             deadline: req.body.deadline,
             priority: req.body.priority,
-            _id: id,
-        });
+        };
 
         if (!errors.isEmpty()) {
             const projects = await Project.find().sort({ name: 1 });
             const priorities = await Priority.find().sort({ name: 1 });
 
-            res.render("tasks/edit", { title: "Edit Task", task, projects, priorities, errors: errors.array() });
+            res.render("tasks/edit", {
+                title: "Edit Task",
+                task: taskData,
+                projects,
+                priorities,
+                errors: errors.array(),
+            });
         } else {
-            await Task.findByIdAndUpdate(id, task);
+            const task = await Task.findById(id);
+            task.set(taskData);
+            await task.save();
             res.redirect(task.url);
         }
     }),
