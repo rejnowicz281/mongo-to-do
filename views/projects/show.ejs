@@ -7,15 +7,15 @@
         <% if(project.description) {%>
         <p><b>Project Description:</b> <%= project.description %></p>
         <% } %>
-        <a href="/projects/<%= project._id %>/edit">Edit</a>
-        <form action="/projects/<%= project._id %>?_method=DELETE" method="POST">
+        <a href="/projects/<%= project.id %>/edit">Edit</a>
+        <form action="/projects/<%= project.id %>?_method=DELETE" method="POST">
             <input type="submit" value="Delete" />
         </form>
         <h3>Project tasks</h3>
         <ul>
             <% projectTasks.forEach((task) => { %>
             <li>
-                <a href="/tasks/<%= task._id %>"> <%= task.name %> </a>
+                <a href="/tasks/<%= task.id %>"> <%= task.name %> </a>
             </li>
             <% }) %>
         </ul>

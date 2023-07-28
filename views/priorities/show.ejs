@@ -5,15 +5,15 @@
         <%- include("../partials/nav.ejs") %>
         <h1>Priority: <%= priority.name %></h1>
         <h2>Priority Level: <%= priority.level %></h2>
-        <a href="/priorities/<%= priority._id %>/edit">Edit</a>
-        <form action="/priorities/<%= priority._id %>?_method=DELETE" method="POST">
+        <a href="/priorities/<%= priority.id %>/edit">Edit</a>
+        <form action="/priorities/<%= priority.id %>?_method=DELETE" method="POST">
             <input type="submit" value="Delete" />
         </form>
         <h3>Priority tasks</h3>
         <ul>
             <% priorityTasks.forEach((task) => { %>
             <li>
-                <a href="/tasks/<%= task._id %>"> <%= task.name %> </a>
+                <a href="/tasks/<%= task.id %>"> <%= task.name %> </a>
             </li>
             <% }) %>
         </ul>
