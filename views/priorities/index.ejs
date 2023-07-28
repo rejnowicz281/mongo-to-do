@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/nav.ejs") %>
+        <h1>Priorities</h1>
+        <ul>
+            <% priorities.forEach((priority) => { %>
+            <li>
+                <a href="/priorities/<%= priority._id %>"> <%= priority.name %></a>
+            </li>
+            <% }) %>
+        </ul>
+    </body>
+</html>
