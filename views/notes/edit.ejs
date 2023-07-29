@@ -5,7 +5,7 @@
         <%- include("../partials/nav.ejs") %>
         <h1>Edit Note</h1>
         <!-- prettier-ignore -->
-        <%- include("./form.ejs", {action: "/notes", submitValue: "Update Note"}) %>
+        <%- include("./form.ejs", {action: `/notes/${note.id}?_method=PUT`, submitValue: "Update Note"}) %>
         <%- include("../partials/formErrors.ejs") %>
     </body>
 </html>
