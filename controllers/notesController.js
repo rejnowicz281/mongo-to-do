@@ -17,10 +17,9 @@ export const noteShow = asyncHandler(async (req, res) => {
 
     if (!ObjectId.isValid(id)) return res.redirect("/notes");
 
-    const noteTasks = await Task.find({ note: id });
     const note = await Note.findById(id).populate("task", "name");
 
-    res.render("notes/show", { title: `Note ${note.id}`, note, noteTasks });
+    res.render("notes/show", { title: `Note ${note.id}`, note });
 });
 
 export const noteNew = asyncHandler(async (req, res) => {
