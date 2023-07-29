@@ -81,6 +81,7 @@ export const noteEdit = asyncHandler(async (req, res) => {
 export const noteUpdate = [
     body("title").optional({ checkFalsy: true }).trim().escape(),
     body("text", "Note text must not be empty").trim().isLength({ min: 1 }).escape(),
+    body("image").optional({ checkFalsy: true }).trim().escape(),
     body("task").optional({ checkFalsy: true }).trim().escape(),
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
