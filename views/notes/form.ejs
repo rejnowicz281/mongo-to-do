@@ -1,0 +1,23 @@
+<form action="<%= action %>" method="post">
+    <div>
+        <label for="title">Title</label>
+        <input type="text" name="title" maxlength="100" value="<%= locals.note ? note.title : '' %>" />
+    </div>
+    <div>
+        <label for="text">Text</label>
+        <textarea required name="text" maxlength="1000"><%= locals.note ? note.text : '' %></textarea>
+    </div>
+
+    <div>
+        <label for="task">Task</label>
+        <select name="task" id="task">
+            <option value="">Select Task</option>
+            <% tasks.forEach((task)=> { %>
+            <option <% if (locals.note) { %>
+                <% if (note.task == task.id) { %> selected <% } %> <% } %> value="<%= task.id %>"><%= task.name %>
+            </option>
+            <% }); %>
+        </select>
+    </div>
+    <input type="submit" value="<%= submitValue %>" />
+</form>

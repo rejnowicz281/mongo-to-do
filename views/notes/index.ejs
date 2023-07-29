@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/nav.ejs") %>
+        <h1>Notes</h1>
+        <ul>
+            <% notes.forEach((note) => { %>
+            <li>
+                <a href="/notes/<%= note.id %>"> <%= note.title || `Note ${note.id}` %></a>
+            </li>
+            <% }) %>
+        </ul>
+    </body>
+</html>

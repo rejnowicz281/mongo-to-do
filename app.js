@@ -2,6 +2,7 @@ import express from "express";
 import methodOverride from "method-override";
 import mongoose from "mongoose";
 
+import notesRouter from "./routes/notes.js";
 import prioritiesRouter from "./routes/priorities.js";
 import projectsRouter from "./routes/projects.js";
 import tasksRouter from "./routes/tasks.js";
@@ -20,7 +21,7 @@ mongoose
         console.log(err);
     });
 
-// view engine setup
+// middleware and static files
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
 app.use("/priorities", prioritiesRouter);
 app.use("/projects", projectsRouter);
 app.use("/tasks", tasksRouter);
+app.use("/notes", notesRouter);
 
 app.use((req, res) => {
     res.status(500).render("error", { title: "500" });
