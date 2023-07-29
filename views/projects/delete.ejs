@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/nav.ejs") %>
+        <h1>You are about to delete Project '<%= project.name %>'. Type in password to proceed.</h1>
+        <h2>Warning: This will delete all of Project tasks.</h2>
+        <form action="/projects/<%= project.id %>?_method=DELETE" method="post">
+            <div>
+                <label for="password">Password (!)</label>
+                <input type="password" id="password" name="password" />
+            </div>
+            <input type="submit" value="Delete Project" />
+        </form>
+        <%- include("../partials/formErrors.ejs") %>
+    </body>
+</html>

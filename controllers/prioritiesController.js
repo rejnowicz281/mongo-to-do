@@ -20,7 +20,7 @@ export const priorityShow = asyncHandler(async (req, res) => {
     const priorityTasks = await Task.find({ priority: id });
     const priority = await Priority.findById(id);
 
-    res.render("priorities/show", { title: `${priority.name}`, priority, priorityTasks });
+    res.render("priorities/show", { title: `Priority '${priority.name}'`, priority, priorityTasks });
 });
 
 export const priorityNew = (req, res) => {
@@ -66,7 +66,7 @@ export const priorityEdit = asyncHandler(async (req, res) => {
     if (!ObjectId.isValid(id)) res.redirect("/priorities");
 
     const priority = await Priority.findById(id);
-    res.render("priorities/edit", { title: "Edit Priority", priority });
+    res.render("priorities/edit", { title: `Edit Priority ${id}`, priority });
 });
 
 export const priorityUpdate = [
@@ -92,9 +92,10 @@ export const priorityUpdate = [
         };
 
         if (!errors.isEmpty()) {
+            const priority = new Priority(priorityData);
             res.render("priorities/edit", {
-                title: "Edit Priority",
-                priority: new Priority(priorityData),
+                title: `Edit Priority ${id}`,
+                priority,
                 errors: errors.array(),
             });
         } else {
@@ -110,13 +111,35 @@ export const priorityUpdate = [
     }),
 ];
 
-export const priorityDelete = asyncHandler(async (req, res) => {
+export const priorityDeleteGet = asyncHandler(async (req, res) => {
     const id = req.params.id;
 
     if (!ObjectId.isValid(id)) return res.redirect("/projects");
 
-    await Task.updateMany({ priority: id }, { $unset: { priority: "" } });
+    const priority = await Priority.findById(id, "name");
 
-    await Priority.findByIdAndDelete(id);
-    res.redirect("/priorities");
+    res.render("priorities/delete", { title: `Delete Priority '${priority.name}'`, priority });
 });
+
+export const priorityDeletePost = [
+    body("password", "Incorrect Password").equals("123"),
+    asyncHandler(async (req, res) => {
+        const errors = validationResult(req);
+        const id = req.params.id;
+
+        if (!errors.isEmpty()) {
+            const priority = await Priority.findById(id, "name");
+
+            res.render("priorities/delete", {
+                title: `Delete Priority '${priority.name}'`,
+                priority,
+                errors: errors.array(),
+            });
+        } else {
+            await Task.updateMany({ priority: id }, { $unset: { priority: "" } });
+
+            await Priority.findByIdAndDelete(id);
+            res.redirect("/priorities");
+        }
+    }),
+];

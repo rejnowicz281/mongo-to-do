@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/nav.ejs") %>
+        <h1>You are about to delete Note '<%= note.title ? note.title : note.id %>'. Type in password to proceed.</h1>
+        <form action="/notes/<%= note.id %>?_method=DELETE" method="POST">
+            <div>
+                <label for="password">Password (!)</label>
+                <input type="password" id="password" name="password" />
+            </div>
+            <input type="submit" value="Delete Note" />
+        </form>
+        <%- include("../partials/formErrors.ejs") %>
+    </body>
+</html>

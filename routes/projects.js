@@ -1,7 +1,8 @@
 import express from "express";
 import {
     projectCreate,
-    projectDelete,
+    projectDeleteGet,
+    projectDeletePost,
     projectEdit,
     projectIndex,
     projectNew,
@@ -17,6 +18,7 @@ router.get("/:id", projectShow);
 router.post("/", projectCreate);
 router.get("/:id/edit", projectEdit);
 router.put("/:id", projectUpdate);
-router.delete("/:id", projectDelete);
+router.get("/:id/delete", projectDeleteGet);
+router.delete("/:id", projectDeletePost);
 
 export default router;

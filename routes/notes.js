@@ -3,7 +3,8 @@ import multer from "multer";
 
 import {
     noteCreate,
-    noteDelete,
+    noteDeleteGet,
+    noteDeletePost,
     noteEdit,
     noteIndex,
     noteNew,
@@ -30,6 +31,7 @@ router.get("/:id", noteShow);
 router.post("/", upload.single("image"), noteCreate);
 router.get("/:id/edit", noteEdit);
 router.put("/:id", upload.single("image"), noteUpdate);
-router.delete("/:id", noteDelete);
+router.get("/:id/delete", noteDeleteGet);
+router.delete("/:id", noteDeletePost);
 
 export default router;

@@ -1,7 +1,8 @@
 import express from "express";
 import {
     priorityCreate,
-    priorityDelete,
+    priorityDeleteGet,
+    priorityDeletePost,
     priorityEdit,
     priorityIndex,
     priorityNew,
@@ -17,6 +18,7 @@ router.get("/:id", priorityShow);
 router.post("/", priorityCreate);
 router.get("/:id/edit", priorityEdit);
 router.put("/:id", priorityUpdate);
-router.delete("/:id", priorityDelete);
+router.get("/:id/delete", priorityDeleteGet);
+router.delete("/:id", priorityDeletePost);
 
 export default router;

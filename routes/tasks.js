@@ -1,7 +1,8 @@
 import express from "express";
 import {
     taskCreate,
-    taskDelete,
+    taskDeleteGet,
+    taskDeletePost,
     taskEdit,
     taskIndex,
     taskNew,
@@ -18,7 +19,8 @@ router.get("/:id", taskShow);
 router.post("/", taskCreate);
 router.get("/:id/edit", taskEdit);
 router.put("/:id", taskUpdate);
-router.delete("/:id", taskDelete);
+router.get("/:id/delete", taskDeleteGet);
+router.delete("/:id", taskDeletePost);
 router.put("/:id/toggleComplete", toggleTaskComplete);
 
 export default router;

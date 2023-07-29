@@ -11,10 +11,8 @@
         <% } else { %>
         <p><b>Not Completed</b></p>
         <% } %> <%- include("./toggleCompleteButton.ejs") %>
-        <a href="/tasks/<%= task.id %>/edit">Edit</a>
-        <form action="/tasks/<%= task.id %>?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
+        <a href="/tasks/<%= task.id %>/edit">Edit</a> |
+        <a href="/tasks/<%= task.id %>/delete">Delete</a>
         <% if(task.deadline) {%>
         <p><b>Deadline: </b><%= task.deadline_yyyy_mm_dd %></p>
         <% } %> <% if(task.priority) {%>

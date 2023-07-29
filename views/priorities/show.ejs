@@ -5,10 +5,8 @@
         <%- include("../partials/nav.ejs") %>
         <h1>Priority: <%= priority.name %></h1>
         <h2>Priority Level: <%= priority.level %></h2>
-        <a href="/priorities/<%= priority.id %>/edit">Edit</a>
-        <form action="/priorities/<%= priority.id %>?_method=DELETE" method="POST">
-            <input type="submit" value="Delete" />
-        </form>
+        <a href="/priorities/<%= priority.id %>/edit">Edit</a> |
+        <a href="/priorities/<%= priority.id %>/delete">Delete</a>
         <h3>Priority tasks</h3>
         <ul>
             <% priorityTasks.forEach((task) => { %>

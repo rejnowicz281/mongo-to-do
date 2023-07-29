@@ -7,10 +7,9 @@
         <% if(project.description) {%>
         <p><b>Project Description:</b> <%= project.description %></p>
         <% } %>
-        <a href="/projects/<%= project.id %>/edit">Edit</a>
-        <form action="/projects/<%= project.id %>?_method=DELETE" method="POST">
-            <input type="submit" value="Delete (This will delete all tasks of this project)" />
-        </form>
+        <a href="/projects/<%= project.id %>/edit">Edit</a> |
+        <a href="/projects/<%= project.id %>/delete">Delete</a>
+        <% if(projectTasks.length) {%>
         <h3>Project tasks</h3>
         <ul>
             <% projectTasks.forEach((task) => { %>
@@ -19,5 +18,6 @@
             </li>
             <% }) %>
         </ul>
+        <% } %>
     </body>
 </html>

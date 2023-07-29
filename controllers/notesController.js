@@ -20,7 +20,7 @@ export const noteShow = asyncHandler(async (req, res) => {
 
     const note = await Note.findById(id).populate("task", "name");
 
-    res.render("notes/show", { title: `Note ${note.id}`, note });
+    res.render("notes/show", { title: `Note ${id}`, note });
 });
 
 export const noteNew = asyncHandler(async (req, res) => {
@@ -76,7 +76,7 @@ export const noteEdit = asyncHandler(async (req, res) => {
     const note = await Note.findById(id);
     const tasks = await Task.find();
 
-    res.render("notes/edit", { title: "Edit Note", note, tasks });
+    res.render("notes/edit", { title: `Edit Note ${id}`, note, tasks });
 });
 
 export const noteUpdate = [
@@ -121,20 +121,38 @@ export const noteUpdate = [
     }),
 ];
 
-export const noteDelete = asyncHandler(async (req, res) => {
+export const noteDeleteGet = asyncHandler(async (req, res) => {
     const id = req.params.id;
 
     if (!ObjectId.isValid(id)) return res.redirect("/notes");
 
-    const note = await Note.findById(id);
+    const note = await Note.findById(id, "title");
 
-    if (note.image) {
-        const imageFileExists = existsSync(`public${note.image}`);
-
-        if (imageFileExists) unlinkSync(`public${note.image}`);
-    }
-
-    await Note.findByIdAndDelete(id);
-
-    res.redirect("/notes");
+    res.render("notes/delete", { title: `Delete Note ${id}`, note });
 });
+
+export const noteDeletePost = [
+    body("password", "Incorrect Password").equals("123"),
+    asyncHandler(async (req, res) => {
+        const errors = validationResult(req);
+        const id = req.params.id;
+
+        if (!errors.isEmpty()) {
+            const note = await Note.findById(id, "title");
+
+            res.render("notes/delete", { title: `Delete Note ${id}`, note, errors: errors.array() });
+        } else {
+            const note = await Note.findById(id);
+
+            if (note.image) {
+                const imageFileExists = existsSync(`public${note.image}`);
+
+                if (imageFileExists) unlinkSync(`public${note.image}`);
+            }
+
+            await Note.findByIdAndDelete(id);
+
+            res.redirect("/notes");
+        }
+    }),
+];

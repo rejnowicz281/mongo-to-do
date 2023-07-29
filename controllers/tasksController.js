@@ -22,7 +22,7 @@ export const taskShow = asyncHandler(async (req, res) => {
     const task = await Task.findById(id).populate("project", "name").populate("priority", "name");
     const taskNotes = await Note.find({ task: id }, { task: 0 });
 
-    res.render("tasks/show", { title: `${task.name}`, task, taskNotes });
+    res.render("tasks/show", { title: `Task '${task.name}'`, task, taskNotes });
 });
 
 export const taskNew = asyncHandler(async (req, res) => {
@@ -83,7 +83,7 @@ export const taskEdit = asyncHandler(async (req, res) => {
     const projects = await Project.find().sort({ name: 1 });
     const priorities = await Priority.find().sort({ name: 1 });
 
-    res.render("tasks/edit", { title: "Edit Task", task, projects, priorities });
+    res.render("tasks/edit", { title: `Edit Task ${id}`, task, projects, priorities });
 });
 
 export const taskUpdate = [
@@ -112,7 +112,7 @@ export const taskUpdate = [
             const priorities = await Priority.find().sort({ name: 1 });
 
             res.render("tasks/edit", {
-                title: "Edit Task",
+                title: `Edit Task ${id}`,
                 task: new Task(taskData),
                 projects,
                 priorities,
@@ -131,16 +131,34 @@ export const taskUpdate = [
     }),
 ];
 
-export const taskDelete = asyncHandler(async (req, res) => {
+export const taskDeleteGet = asyncHandler(async (req, res) => {
     const id = req.params.id;
 
     if (!ObjectId.isValid(id)) return res.redirect("/tasks");
 
-    await Note.updateMany({ task: id }, { $unset: { task: "" } });
+    const task = await Task.findById(id, "name");
 
-    await Task.findByIdAndDelete(id);
-    res.redirect("/tasks");
+    res.render("tasks/delete", { title: `Delete Task '${task.name}'`, task });
 });
+
+export const taskDeletePost = [
+    body("password", "Incorrect Password").equals("123"),
+    asyncHandler(async (req, res) => {
+        const errors = validationResult(req);
+        const id = req.params.id;
+
+        if (!errors.isEmpty()) {
+            const task = await Task.findById(id, "name");
+
+            res.render("tasks/delete", { title: `Delete Task '${task.name}'`, task, errors: errors.array() });
+        } else {
+            await Note.updateMany({ task: id }, { $unset: { task: "" } });
+
+            await Task.findByIdAndDelete(id);
+            res.redirect("/tasks");
+        }
+    }),
+];
 
 export const toggleTaskComplete = asyncHandler(async (req, res) => {
     const id = req.params.id;

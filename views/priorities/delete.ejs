@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("../partials/head.ejs") %>
+    <body>
+        <%- include("../partials/nav.ejs") %>
+        <h1>You are about to delete Priority '<%= priority.name %>'. Type in password to proceed.</h1>
+        <form action="/priorities/<%= priority.id %>?_method=DELETE" method="post">
+            <div>
+                <label for="password">Password (!)</label>
+                <input type="password" id="password" name="password" />
+            </div>
+            <input type="submit" value="Delete Priority" />
+        </form>
+        <%- include("../partials/formErrors.ejs") %>
+    </body>
+</html>
