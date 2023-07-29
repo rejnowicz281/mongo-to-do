@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 import asyncHandler from "../asyncHandler.js";
 
 import { body, validationResult } from "express-validator";
+import { existsSync, unlinkSync } from "fs";
 
 export const noteIndex = asyncHandler(async (req, res) => {
     const notes = await Note.find().sort({ title: 1 });
@@ -122,6 +123,15 @@ export const noteDelete = asyncHandler(async (req, res) => {
 
     if (!ObjectId.isValid(id)) return res.redirect("/notes");
 
+    const note = await Note.findById(id);
+
+    if (note.image) {
+        const imageFileExists = existsSync(`public${note.image}`);
+
+        if (imageFileExists) unlinkSync(`public${note.image}`);
+    }
+
     await Note.findByIdAndDelete(id);
+
     res.redirect("/notes");
 });
