@@ -1,3 +1,4 @@
+import Note from "../models/note.js";
 import Priority from "../models/priority.js";
 import Project from "../models/project.js";
 import Task from "../models/task.js";
@@ -19,8 +20,9 @@ export const taskShow = asyncHandler(async (req, res) => {
     if (!ObjectId.isValid(id)) return res.redirect("/tasks");
 
     const task = await Task.findById(id).populate("project", "name").populate("priority", "name");
+    const taskNotes = await Note.find({ task: id }, { task: 0 });
 
-    res.render("tasks/show", { title: `${task.name}`, task });
+    res.render("tasks/show", { title: `${task.name}`, task, taskNotes });
 });
 
 export const taskNew = asyncHandler(async (req, res) => {
@@ -131,6 +133,8 @@ export const taskDelete = asyncHandler(async (req, res) => {
     const id = req.params.id;
 
     if (!ObjectId.isValid(id)) return res.redirect("/tasks");
+
+    await Note.updateMany({ task: id }, { $unset: { task: "" } });
 
     await Task.findByIdAndDelete(id);
     res.redirect("/tasks");
