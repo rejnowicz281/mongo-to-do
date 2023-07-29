@@ -9,7 +9,7 @@
             <input type="submit" value="Delete Note" />
         </form>
         <% if(note.task) {%>
-        <h3>Task: <a href="<%= note.task.id %>"><%= note.task.name %></a></h3>
+        <h3>Task: <a href="/tasks/<%= note.task.id %>"><%= note.task.name %></a></h3>
         <% } %> <% if(note.title) {%>
         <h2><%= note.title %></h2>
         <% } %>
