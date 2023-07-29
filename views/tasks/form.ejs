@@ -4,7 +4,7 @@
         <input type="text" required name="name" maxlength="100" value="<%= locals.task ? task.name : '' %>" />
     </div>
     <div>
-        <label for="description">Description</label>
+        <label for="description">Description <i>(optional)</i></label>
         <textarea name="description" maxlength="100"><%= locals.task ? task.description : '' %></textarea>
     </div>
     <div>
@@ -20,7 +20,7 @@
         </select>
     </div>
     <div>
-        <label for="priority">Priority</label>
+        <label for="priority">Priority <i>(optional)</i></label>
         <select name="priority" id="priority">
             <option value="">Select Priority</option>
             <% priorities.forEach((priority)=> { %>
@@ -32,7 +32,7 @@
         </select>
     </div>
     <div>
-        <label for="deadline">Deadline</label>
+        <label for="deadline">Deadline <i>(optional)</i></label>
         <input type="date" name="deadline" value="<%= locals.task ? task.deadline_yyyy_mm_dd : '' %>" />
     </div>
     <input type="submit" value="<%= submitValue %>" />
