@@ -1,0 +1,3 @@
+<form action="/tasks/<%= task.id %>/toggleComplete?_method=PUT" method="post">
+    <input type="submit" value="<%= task.completed ? "Mark As Not Complete" : "Mark As Complete" %>">
+</form>

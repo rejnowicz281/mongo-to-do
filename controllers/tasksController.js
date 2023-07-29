@@ -135,3 +135,18 @@ export const taskDelete = asyncHandler(async (req, res) => {
     await Task.findByIdAndDelete(id);
     res.redirect("/tasks");
 });
+
+export const toggleTaskComplete = asyncHandler(async (req, res) => {
+    const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) return res.redirect("/tasks");
+
+    const task = await Task.findById(id);
+
+    task.set({ completed: !task.completed });
+
+    await task.save();
+
+    console.log(task);
+    res.redirect(task.url);
+});

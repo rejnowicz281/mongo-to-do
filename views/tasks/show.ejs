@@ -10,7 +10,7 @@
         <p><b>Completed</b></p>
         <% } else { %>
         <p><b>Not Completed</b></p>
-        <% } %>
+        <% } %> <%- include("./toggleCompleteButton.ejs") %>
         <a href="/tasks/<%= task.id %>/edit">Edit</a>
         <form action="/tasks/<%= task.id %>?_method=DELETE" method="POST">
             <button>Delete</button>

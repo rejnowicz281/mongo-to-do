@@ -7,6 +7,7 @@ import {
     taskNew,
     taskShow,
     taskUpdate,
+    toggleTaskComplete,
 } from "../controllers/tasksController.js";
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router.post("/", taskCreate);
 router.get("/:id/edit", taskEdit);
 router.put("/:id", taskUpdate);
 router.delete("/:id", taskDelete);
+router.put("/:id/toggleComplete", toggleTaskComplete);
 
 export default router;
