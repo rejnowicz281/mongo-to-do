@@ -1,12 +1,13 @@
 #! /usr/bin/env node
 
 console.log(
-    'This script adds some projects, tasks and priorities to the database. Specified database as argument - e.g.: node populatedb "mongodb+srv://cooluser:coolpassword@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority"'
+    'This script seeds the database. Specified database as argument - e.g.: node populatedb "mongodb+srv://cooluser:coolpassword@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority"'
 );
 
 // Get arguments passed on command line
 const userArgs = process.argv.slice(2);
 
+import Note from "./models/note.js";
 import Priority from "./models/priority.js";
 import Project from "./models/project.js";
 import Task from "./models/task.js";
@@ -14,6 +15,7 @@ import Task from "./models/task.js";
 const projects = [];
 const tasks = [];
 const priorities = [];
+const notes = [];
 
 import pkg from "mongoose";
 const { connect, connection, set } = pkg;
@@ -31,6 +33,7 @@ async function main() {
     await createProjects();
     await createPriorities();
     await createTasks();
+    await createNotes();
     console.log("Debug: Closing mongoose");
     connection.close();
 }
@@ -70,6 +73,20 @@ async function taskCreate(index, name, description, project, completed, deadline
     console.log(`Added task: ${name}`);
 }
 
+async function noteCreate(index, title, text, task) {
+    const noteDetail = { text };
+
+    if (title != false) noteDetail.title = title;
+    if (task != false) noteDetail.task = task;
+
+    const note = new Note(noteDetail);
+
+    await note.save();
+    notes[index] = note;
+
+    console.log(`Added note ${title ? `'${title}'` : note.id}`);
+}
+
 async function createProjects() {
     console.log("Creating projects");
 
@@ -106,4 +123,24 @@ async function createTasks() {
     await taskCreate(12, "Task 1E", "This is Task 1 of Epsilon", projects[4], false, new Date(), priorities[0]);
     await taskCreate(13, "Task 2E", "This is Task 2 of Epsilon", projects[4], true, false, false);
     await taskCreate(14, "Task 3E", "This is Task 3 of Epsilon", projects[4], false, new Date(), priorities[2]);
+}
+
+async function createNotes() {
+    console.log("Creating notes");
+
+    await noteCreate(0, "Note 1A", "Note of Task 1A", tasks[0]);
+    await noteCreate(1, false, "Note of Task 2A", tasks[1]);
+    await noteCreate(2, "Note 3A", "Note of Task 3A", tasks[2]);
+    await noteCreate(3, false, "Note of Task 1B", tasks[3]);
+    await noteCreate(4, "Note 2B", "Note of Task 2B", tasks[4]);
+    await noteCreate(5, false, "Independent Note.... JDSAODASKDASDKA", false);
+    await noteCreate(6, "Note 1G", "Note of Task 1G", tasks[6]);
+    await noteCreate(7, "Note 2G", "Note of Task 2G", tasks[7]);
+    await noteCreate(8, false, "Note of Task 3G", tasks[8]);
+    await noteCreate(9, "A simple note", "Note about nothing in particular.", false);
+    await noteCreate(10, "Note 2D", "Note of Task 2D", tasks[10]);
+    await noteCreate(11, false, "Independent Note... 12321321321321321321321321", false);
+    await noteCreate(12, "Note 1E", "Note of Task 1E", tasks[12]);
+    await noteCreate(13, false, "Note of INDEPENDENCE.... ASDMIASDJASIODASKODIK", false);
+    await noteCreate(14, "Note 3E", "Note of Task 3E", tasks[14]);
 }
