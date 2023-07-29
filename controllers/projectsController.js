@@ -99,6 +99,8 @@ export const projectDelete = asyncHandler(async (req, res) => {
 
     if (!ObjectId.isValid(id)) return res.redirect("/projects");
 
+    await Task.deleteMany({ project: id });
+
     await Project.findByIdAndDelete(id);
     res.redirect("/projects");
 });
