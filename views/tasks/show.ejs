@@ -23,5 +23,17 @@
         <p><b>Task Project: </b><a href="/projects/<%= task.project.id %>"><%= task.project.name %></a></p>
         <p><b>Created: </b><%= task.createdAt_yyyy_mm_dd %></p>
         <p><b>Last Updated: </b><%= task.updatedAt_yyyy_mm_dd %></p>
+        <% if(taskNotes.length) {%>
+        <div>
+            <b>Task Notes:</b>
+            <ul>
+                <% taskNotes.forEach((note) => { %> <% if(note.text) {%>
+                <li>
+                    <a href="/notes/<%= note.id %>"> <%= note.title || `Note ${note.id}` %></a>
+                </li>
+                <% } %> <% }) %>
+            </ul>
+        </div>
+        <% } %>
     </body>
 </html>
