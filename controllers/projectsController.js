@@ -17,8 +17,8 @@ export const projectShow = asyncHandler(async (req, res) => {
 
     if (!ObjectId.isValid(id)) return res.redirect("/projects");
 
-    const projectTasks = await Task.find({ project: req.params.id });
-    const project = await Project.findById(req.params.id);
+    const projectTasks = await Task.find({ project: id });
+    const project = await Project.findById(id);
 
     res.render("projects/show", { title: `${project.name}`, project, projectTasks });
 });

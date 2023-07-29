@@ -18,7 +18,7 @@ export const taskShow = asyncHandler(async (req, res) => {
 
     if (!ObjectId.isValid(id)) return res.redirect("/tasks");
 
-    const task = await Task.findById(req.params.id).populate("project", "name").populate("priority", "name");
+    const task = await Task.findById(id).populate("project", "name").populate("priority", "name");
 
     res.render("tasks/show", { title: `${task.name}`, task });
 });

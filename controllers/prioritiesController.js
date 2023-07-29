@@ -17,8 +17,8 @@ export const priorityShow = asyncHandler(async (req, res) => {
 
     if (!ObjectId.isValid(id)) return res.redirect("/priorities");
 
-    const priorityTasks = await Task.find({ priority: req.params.id });
-    const priority = await Priority.findById(req.params.id);
+    const priorityTasks = await Task.find({ priority: id });
+    const priority = await Priority.findById(id);
 
     res.render("priorities/show", { title: `${priority.name}`, priority, priorityTasks });
 });
