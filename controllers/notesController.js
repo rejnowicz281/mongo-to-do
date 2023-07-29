@@ -31,6 +31,7 @@ export const noteNew = asyncHandler(async (req, res) => {
 export const noteCreate = [
     body("title").optional({ checkFalsy: true }).trim().escape(),
     body("text", "Note text must not be empty").trim().isLength({ min: 1 }).escape(),
+    body("image").optional({ checkFalsy: true }).trim().escape(),
     body("task").optional({ checkFalsy: true }).trim().escape(),
     asyncHandler(async (req, res) => {
         const errors = validationResult(req);
@@ -41,9 +42,13 @@ export const noteCreate = [
             task: req.body.task || undefined,
         };
 
+        if (req.file) noteData.image = `/uploads/${req.file.filename}`;
+        if (req.body.deleteImage) noteData.image = undefined;
+
         const note = new Note(noteData);
 
         if (!errors.isEmpty()) {
+            console.log(note);
             const tasks = await Task.find();
 
             res.render("notes/new", {
@@ -98,6 +103,9 @@ export const noteUpdate = [
             });
         } else {
             const note = await Note.findById(id);
+
+            if (req.file) noteData.image = `/uploads/${req.file.filename}`;
+            if (req.body.deleteImage) noteData.image = undefined;
 
             note.set(noteData);
 

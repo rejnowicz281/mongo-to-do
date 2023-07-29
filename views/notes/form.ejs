@@ -1,15 +1,14 @@
-<form action="<%= action %>" method="post">
+<form action="<%= action %>" method="post" enctype="multipart/form-data">
     <div>
-        <label for="title">Title</label>
+        <label for="title">Title <i>(optional)</i></label>
         <input type="text" name="title" maxlength="100" value="<%= locals.note ? note.title : '' %>" />
     </div>
     <div>
         <label for="text">Text</label>
-        <textarea required name="text" maxlength="1000"><%= locals.note ? note.text : '' %></textarea>
+        <textarea name="text" required maxlength="1000"><%= locals.note ? note.text : '' %></textarea>
     </div>
-
     <div>
-        <label for="task">Task</label>
+        <label for="task">Task <i>(optional)</i></label>
         <select name="task" id="task">
             <option value="">Select Task</option>
             <% tasks.forEach((task)=> { %>
@@ -18,6 +17,14 @@
             </option>
             <% }); %>
         </select>
+    </div>
+    <div>
+        <label for="image">Image <i>(optional)</i></label>
+        <input type="file" id="image" name="image" />
+    </div>
+    <div>
+        <input type="checkbox" id="deleteImage" name="deleteImage" />
+        <label for="deleteImage">No Image</label>
     </div>
     <input type="submit" value="<%= submitValue %>" />
 </form>

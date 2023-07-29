@@ -14,5 +14,8 @@
         <h2><%= note.title %></h2>
         <% } %>
         <p><%= note.text %></p>
+        <% if(note.image) {%>
+        <img src="<%= note.image %>" alt="Note Image" />
+        <% } %>
     </body>
 </html>

@@ -7,6 +7,7 @@ const noteSchema = new Schema(
         title: { type: String, maxLength: 100 },
         text: { type: String, maxLength: 1000, required: true },
         task: { type: Schema.Types.ObjectId, ref: "Task" },
+        image: String,
     },
     { timestamps: true }
 );
