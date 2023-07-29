@@ -115,6 +115,8 @@ export const priorityDelete = asyncHandler(async (req, res) => {
 
     if (!ObjectId.isValid(id)) return res.redirect("/projects");
 
+    await Task.updateMany({ priority: id }, { $unset: { priority: "" } });
+
     await Priority.findByIdAndDelete(id);
     res.redirect("/priorities");
 });
