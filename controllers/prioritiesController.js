@@ -28,7 +28,7 @@ export const priorityNew = (req, res) => {
 };
 
 export const priorityCreate = [
-    // validate and sanitize name
+    body("password", "Incorrect Password").equals("123"),
     body("name", "Priority name must not be empty").trim().isLength({ min: 1 }).escape(),
     body("level")
         .trim()
@@ -70,7 +70,7 @@ export const priorityEdit = asyncHandler(async (req, res) => {
 });
 
 export const priorityUpdate = [
-    // validate and sanitize name
+    body("password", "Incorrect Password").equals("123"),
     body("name", "Priority name must not be empty").trim().isLength({ min: 1 }).escape(),
     body("level")
         .trim()

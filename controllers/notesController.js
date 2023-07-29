@@ -30,6 +30,7 @@ export const noteNew = asyncHandler(async (req, res) => {
 });
 
 export const noteCreate = [
+    body("password", "Incorrect Password").equals("123"),
     body("title").optional({ checkFalsy: true }).trim().escape(),
     body("text", "Note text must not be empty").trim().isLength({ min: 1 }).escape(),
     body("image").optional({ checkFalsy: true }).trim().escape(),
@@ -79,6 +80,7 @@ export const noteEdit = asyncHandler(async (req, res) => {
 });
 
 export const noteUpdate = [
+    body("password", "Incorrect Password").equals("123"),
     body("title").optional({ checkFalsy: true }).trim().escape(),
     body("text", "Note text must not be empty").trim().isLength({ min: 1 }).escape(),
     body("image").optional({ checkFalsy: true }).trim().escape(),

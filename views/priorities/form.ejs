@@ -1,7 +1,16 @@
 <form action="<%= action %>" method="POST">
-    <label for="name">Name</label>
-    <input type="text" name="name" required maxlength="100" value="<%= locals.priority ? priority.name : "" %>" />
-    <label for="level">Level</label>
-    <input type="number" name="level" required min="1" max="100" value="<%= locals.priority ? priority.level : "" %>" />
+    <div>
+        <label for="password">Password (!)</label>
+        <input type="password" id="password" name="password" />
+    </div>
+    <div>
+        <label for="name">Name</label>
+        <input type="text" name="name" required maxlength="100" value="<%= locals.priority ? priority.name : "" %>" />
+    </div>
+    <div>
+        <label for="level">Level</label>
+        <input type="number" name="level" required min="1" max="100" value="<%= locals.priority ? priority.level : ""
+        %>" />
+    </div>
     <input type="submit" value="<%= submitValue %>" />
 </form>

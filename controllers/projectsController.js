@@ -28,6 +28,7 @@ export const projectNew = (req, res) => {
 };
 
 export const projectCreate = [
+    body("password", "Incorrect Password").equals("123"),
     body("name", "Project name must not be empty").trim().isLength({ min: 1 }).escape(),
     body("description").optional({ checkFalsy: true }).trim().escape(),
 
@@ -62,6 +63,7 @@ export const projectEdit = asyncHandler(async (req, res) => {
 });
 
 export const projectUpdate = [
+    body("password", "Incorrect Password").equals("123"),
     body("name", "Project name must not be empty").trim().isLength({ min: 1 }).escape(),
     body("description").optional({ checkFalsy: true }).trim().escape(),
 

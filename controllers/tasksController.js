@@ -33,6 +33,7 @@ export const taskNew = asyncHandler(async (req, res) => {
 });
 
 export const taskCreate = [
+    body("password", "Incorrect Password").equals("123"),
     body("name", "Task name must not be empty").trim().isLength({ min: 1 }).escape(),
     body("description").optional({ checkFalsy: true }).trim().escape(),
     body("project", "Project must not be empty").trim().isLength({ min: 1 }).escape(),
@@ -86,6 +87,7 @@ export const taskEdit = asyncHandler(async (req, res) => {
 });
 
 export const taskUpdate = [
+    body("password", "Incorrect Password").equals("123"),
     body("name", "Task name must not be empty").trim().isLength({ min: 1 }).escape(),
     body("description").optional({ checkFalsy: true }).trim().escape(),
     body("project", "Project must not be empty").trim().isLength({ min: 1 }).escape(),
