@@ -7,6 +7,10 @@ import asyncHandler from "../asyncHandler.js";
 
 import { body, validationResult } from "express-validator";
 
+import debug from "debug";
+
+const logger = debug("app:prioritiesController");
+
 export const priorityIndex = asyncHandler(async (req, res) => {
     const priorities = await Priority.find().sort({ level: 1 });
     res.render("priorities/index", { title: "Priority List", priorities });
@@ -54,7 +58,7 @@ export const priorityCreate = [
         } else {
             await priority.save();
 
-            console.log(priority);
+            logger(priority);
             res.redirect(priority.url);
         }
     }),
@@ -105,7 +109,7 @@ export const priorityUpdate = [
 
             await priority.save();
 
-            console.log(priority);
+            logger(priority);
             res.redirect(priority.url);
         }
     }),

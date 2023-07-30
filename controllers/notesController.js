@@ -5,8 +5,11 @@ import { ObjectId } from "mongodb";
 
 import asyncHandler from "../asyncHandler.js";
 
+import debug from "debug";
 import { body, validationResult } from "express-validator";
 import { existsSync, unlinkSync } from "fs";
+
+const logger = debug("app:notesController");
 
 export const noteIndex = asyncHandler(async (req, res) => {
     const notes = await Note.find().sort({ title: 1 });
@@ -50,7 +53,7 @@ export const noteCreate = [
         const note = new Note(noteData);
 
         if (!errors.isEmpty()) {
-            console.log(note);
+            logger(note);
             const tasks = await Task.find();
 
             res.render("notes/new", {
@@ -62,7 +65,7 @@ export const noteCreate = [
         } else {
             await note.save();
 
-            console.log(note);
+            logger(note);
             res.redirect(note.url);
         }
     }),
@@ -115,7 +118,7 @@ export const noteUpdate = [
 
             await note.save();
 
-            console.log(note);
+            logger(note);
             res.redirect(note.url);
         }
     }),

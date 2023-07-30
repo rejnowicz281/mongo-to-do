@@ -1,6 +1,10 @@
 #! /usr/bin/env node
 
-console.log(
+import debug from "debug";
+
+const logger = debug("app:populatedb");
+
+logger(
     'This script seeds the database. Specified database as argument - e.g.: node populatedb "mongodb+srv://cooluser:coolpassword@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority"'
 );
 
@@ -24,17 +28,17 @@ set("strictQuery", false); // Prepare for Mongoose 7
 
 const mongoDB = userArgs[0];
 
-main().catch((err) => console.log(err));
+main().catch((err) => logger(err));
 
 async function main() {
-    console.log("Debug: About to connect");
+    logger("Debug: About to connect");
     await connect(mongoDB);
-    console.log("Debug: Should be connected?");
+    logger("Debug: Should be connected?");
     await createProjects();
     await createPriorities();
     await createTasks();
     await createNotes();
-    console.log("Debug: Closing mongoose");
+    logger("Debug: Closing mongoose");
     connection.close();
 }
 
@@ -48,14 +52,14 @@ async function projectCreate(index, name, description) {
     await project.save();
     projects[index] = project;
 
-    console.log(`Added project: ${name}`);
+    logger(`Added project: ${name}`);
 }
 
 async function priorityCreate(index, name, level) {
     const priority = new Priority({ name, level });
     await priority.save();
     priorities[index] = priority;
-    console.log(`Added priority: ${name}`);
+    logger(`Added priority: ${name}`);
 }
 
 async function taskCreate(index, name, description, project, completed, deadline, priority) {
@@ -70,7 +74,7 @@ async function taskCreate(index, name, description, project, completed, deadline
     await task.save();
     tasks[index] = task;
 
-    console.log(`Added task: ${name}`);
+    logger(`Added task: ${name}`);
 }
 
 async function noteCreate(index, title, text, task) {
@@ -84,11 +88,11 @@ async function noteCreate(index, title, text, task) {
     await note.save();
     notes[index] = note;
 
-    console.log(`Added note ${title ? `'${title}'` : note.id}`);
+    logger(`Added note ${title ? `'${title}'` : note.id}`);
 }
 
 async function createProjects() {
-    console.log("Creating projects");
+    logger("Creating projects");
 
     await projectCreate(0, "Project Alpha", "This is Project Alpha I");
     await projectCreate(1, "Project Beta", "This is Project Beta II");
@@ -98,7 +102,7 @@ async function createProjects() {
 }
 
 async function createPriorities() {
-    console.log("Creating priorities");
+    logger("Creating priorities");
 
     await priorityCreate(0, "Low", 1);
     await priorityCreate(1, "Medium", 2);
@@ -106,7 +110,7 @@ async function createPriorities() {
 }
 
 async function createTasks() {
-    console.log("Creating tasks");
+    logger("Creating tasks");
 
     await taskCreate(0, "Task 1A", "This is Task 1 of Alpha", projects[0], false, new Date(), false);
     await taskCreate(1, "Task 2A", "This is Task 2 of Alpha", projects[0], true, false, priorities[1]);
@@ -126,7 +130,7 @@ async function createTasks() {
 }
 
 async function createNotes() {
-    console.log("Creating notes");
+    logger("Creating notes");
 
     await noteCreate(0, "Note 1A", "Note of Task 1A", tasks[0]);
     await noteCreate(1, false, "Note of Task 2A", tasks[1]);

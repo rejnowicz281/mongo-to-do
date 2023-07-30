@@ -9,6 +9,10 @@ import asyncHandler from "../asyncHandler.js";
 
 import { body, validationResult } from "express-validator";
 
+import debug from "debug";
+
+const logger = debug("app:tasksController");
+
 export const taskIndex = asyncHandler(async (req, res) => {
     const tasks = await Task.find().sort({ name: 1 });
     res.render("tasks/index", { title: "Task List", tasks });
@@ -67,7 +71,7 @@ export const taskCreate = [
         } else {
             await task.save();
 
-            console.log(task);
+            logger(task);
             res.redirect(task.url);
         }
     }),
@@ -125,7 +129,7 @@ export const taskUpdate = [
 
             await task.save();
 
-            console.log(task);
+            logger(task);
             res.redirect(task.url);
         }
     }),
@@ -171,6 +175,6 @@ export const toggleTaskComplete = asyncHandler(async (req, res) => {
 
     await task.save();
 
-    console.log(task);
+    logger(task);
     res.redirect(task.url);
 });

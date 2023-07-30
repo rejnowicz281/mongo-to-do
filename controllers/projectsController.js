@@ -7,6 +7,10 @@ import asyncHandler from "../asyncHandler.js";
 
 import { body, validationResult } from "express-validator";
 
+import debug from "debug";
+
+const logger = debug("app:projectsController");
+
 export const projectIndex = asyncHandler(async (req, res) => {
     const projects = await Project.find().sort({ name: 1 });
     res.render("projects/index", { title: "Project List", projects });
@@ -47,7 +51,7 @@ export const projectCreate = [
         } else {
             await project.save();
 
-            console.log(project);
+            logger(project);
             res.redirect(project.url);
         }
     }),
@@ -90,7 +94,7 @@ export const projectUpdate = [
 
             await project.save();
 
-            console.log(project);
+            logger(project);
             res.redirect(project.url);
         }
     }),
