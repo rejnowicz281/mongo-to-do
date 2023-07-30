@@ -16,32 +16,33 @@ const app = express();
 const logger = debug("app:db");
 
 // connect to mongodb && listen for requests
-const URI =
-    process.env.MONGOD_URI ||
-    "mongodb+srv://rejnowicz281:123@nodetuts.gvvxv5y.mongodb.net/mongo-to-do?retryWrites=true&w=majority";
+const URI = process.env.MONGOD_URI;
+
 mongoose
     .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
-        app.listen(3000);
+        const server = app.listen(3000);
+
         logger("Connected to DB");
+        logger(server.address());
     })
     .catch((err) => {
         logger(err);
     });
 
 // middleware and static files
-app.use(
-    rateLimit({
-        windowMs: 1 * 60 * 1000, // 1 minute
-        max: 20,
-    })
-);
 app.use(compression());
 app.use(helmet());
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
+app.use(
+    rateLimit({
+        windowMs: 1 * 60 * 1000, // 1 minute
+        max: 200,
+    })
+);
 
 // routes
 app.get("/", (req, res) => {
